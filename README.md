@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/eclipse/elk/master/docs/static/img/elk_with_text.svg?sanitize=true" height="150"> 
+  <img src="https://raw.githubusercontent.com/eclipse/elk/master/docs/static/img/elk_with_text.svg?sanitize=true" height="150">
 </p>
 
 Diagrams and visual languages are a great thing,
@@ -45,3 +45,23 @@ The repository's structure is pretty straightforward. We only have a few folders
 ## Building ELK
 
 Information on how to build ELK and the documentation can be found [on our website](https://www.eclipse.org/elk/documentation/contributors/buildingelk.html).
+
+## Building notes from @ribafish
+
+Build with java 17 and maven 3.9. All executions should be invoked from the `build` directory.
+
+Integration tests are executed as following:
+
+```shell
+mvn -Delk.metadata.documentation.outputPath=${ELK_REPO}/docs -Dtests.paths.elk-repo=${ELK_REPO} -Dtests.paths.models-repo=${ELK_MODELS_REPO} -Dmaven.repo.local=./mvnrepo clean integration-test
+```
+
+where `ELK_REPO` and `ELK_MODELS_REPO` are replaced by paths on your system. This also means that you need a local clone of https://github.com/eclipse/elk-models, to which you point `ELK_MODELS_REPO`.
+
+Simply building ELK can be done with
+```shell
+mvn -Delk.metadata.documentation.outputPath=${ELK_REPO}/docs -Dmaven.repo.local=./mvnrepo clean package
+```
+where `ELK_REPO` is replaced by a path on your system.
+
+
