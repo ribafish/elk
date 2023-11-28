@@ -211,253 +211,257 @@
       </plugin>
 
       <!-- Enable Java assertions during JUnit test runs. -->
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-surefire-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <configuration>
-          <enableAssertions>true</enableAssertions>
-          <!-- There seems to be an issue with executing several tests in parallel in that
-               it can happen that failed tests are eventually reported as having succeeded.
-               A resolution is to set forkCount=1 and reuseForks=false
-               See, e.g. the following stackoverflow post:
-               https://stackoverflow.com/questions/3365628/junit-tests-pass-in-eclipse-but-fail-in-maven-surefire -->
-          <!-- parallel>classes</parallel -->
-          <!-- threadCount>4</threadCount -->
-          <reuseForks>false</reuseForks>
-          <forkCount>1</forkCount>
-          <excludes>
-            <exclude>**/TestUtil.java</exclude>
-          </excludes>
-          <systemProperties>
-            <ELK_REPO>${tests.paths.elk-repo}</ELK_REPO>
-            <MODELS_REPO>${tests.paths.models-repo}</MODELS_REPO>
-          </systemProperties>
-        </configuration>
-<!--        <dependencies>-->
-<!--          <dependency>-->
-<!--            <groupId>org.apache.maven.surefire</groupId>-->
-<!--            <artifactId>surefire-junit47</artifactId>-->
-<!--            <version>2.12.4</version>-->
-<!--          </dependency>-->
-<!--        </dependencies>-->
-        <executions>
-          <execution>
-            <id>test</id>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>integration-test</id>
-            <goals>
-              <goal>integration-test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+      
     </plugins>
 
     <pluginManagement>
       <plugins>
 
-        <!-- Gradle Enterprise -->
+      <!-- Gradle Enterprise -->
+      <plugin>
+        <groupId>com.gradle</groupId>
+        <artifactId>gradle-enterprise-maven-extension</artifactId>
+        <configuration>
+          <gradleEnterprise xmlns="https://www.gradle.com/gradle-enterprise-maven-project">
+            <plugins>
+              <plugin>
+
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-surefire-plugin</artifactId>
+                <executions>
+                  <execution>
+                    <id>test</id>
+                    <inputs>
+
+                    </inputs>
+                    <outputs>
+                      <cacheableBecause>compilation is CPU-bound</cacheableBecause>
+                    </outputs>
+                  </execution>
+                  <execution>
+                    <id>integration-test</id>
+                    <inputs>
+
+                    </inputs>
+                    <outputs>
+                      <cacheableBecause>compilation is CPU-bound</cacheableBecause>
+                    </outputs>
+                  </execution>
+                </executions>
+                <!--                  <inputs>-->
+                <!--                    <fileSets>-->
+                <!--                      <fileSet>-->
+                <!--                        <name>generatedSourcesDirectory</name> &lt;!&ndash; maybe here? &ndash;&gt;-->
+                <!--                        <normalization>-->
+                <!--                          <ignoreEmptyDirectories>true</ignoreEmptyDirectories>-->
+                <!--                          <ignoreLineEndings>true</ignoreLineEndings>-->
+                <!--                        </normalization>-->
+                <!--                      </fileSet>-->
+                <!--                      <fileSet>-->
+                <!--                        <name>classpath</name>-->
+                <!--                        <normalization>COMPILE_CLASSPATH</normalization>-->
+                <!--                      </fileSet>-->
+                <!--                      <fileSet>-->
+                <!--                        <name>testClasspath</name>-->
+                <!--                        <normalization>COMPILE_CLASSPATH</normalization>-->
+                <!--                      </fileSet>-->
+                <!--                      <fileSet>-->
+                <!--                        <name>extraClasspathElements</name>-->
+                <!--                        <normalization>COMPILE_CLASSPATH</normalization>-->
+                <!--                      </fileSet>-->
+                <!--                    </fileSets>-->
+                <!--                    <properties>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>compilerArgs</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>compilerArgument</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>compilerArguments</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>compilerVersion</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>copyResources</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>debug</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>deriveReleaseCompilerArgumentFromTargetLevel</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>encoding</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>excludeResources</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>excludes</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>executable</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>includes</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>log</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>optimize</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>outputFileName</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>pomOnlyDependencies</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>proc</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>release</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>requireJavaPackageImports</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>requireJREPackageImports</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>source</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>staleMillis</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>strictCompilerTarget</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>target</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>useJDK</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                      <property>-->
+                <!--                        <name>annotationProcessors</name>-->
+                <!--                      </property>-->
+                <!--                    </properties>-->
+
+                <!--                    <ignoredProperties> &lt;!&ndash; maybe ignored ? &ndash;&gt;-->
+                <!--                      <ignore>compilerId</ignore>-->
+                <!--                      <ignore>failOnWarning</ignore>-->
+                <!--                      <ignore>fork</ignore>-->
+                <!--                      <ignore>maxmem</ignore>-->
+                <!--                      <ignore>meminitial</ignore>-->
+                <!--                      <ignore>showDeprecation</ignore>-->
+                <!--                      <ignore>showWarnings</ignore>-->
+                <!--                      <ignore>meminitial</ignore>-->
+                <!--                    </ignoredProperties>-->
+
+                <!--                  </inputs>-->
+                <outputs>
+                  <directories>
+                    <!--                      <directory>-->
+                    <!--                        <name>output</name>-->
+                    <!--                      </directory>-->
+                    <!--                      <directory>-->
+                    <!--                        <name>testOutput</name>-->
+                    <!--                      </directory>-->
+                    <!--                      <directory>-->
+                    <!--                        <name>logDirectory</name>-->
+                    <!--                      </directory>-->
+                  </directories>
+                </outputs>
+              </plugin>
+            </plugins>
+          </gradleEnterprise>
+        </configuration>
+      </plugin>
+
         <plugin>
-          <groupId>com.gradle</groupId>
-          <artifactId>gradle-enterprise-maven-extension</artifactId>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-surefire-plugin</artifactId>
+          <version>${tycho-version}</version>
           <configuration>
-            <gradleEnterprise xmlns="https://www.gradle.com/gradle-enterprise-maven-project">
-              <plugins>
-                <plugin>
-
-                  <groupId>org.eclipse.tycho</groupId>
-                  <artifactId>tycho-surefire-plugin</artifactId>
-                  <executions>
-                    <execution>
-                      <id>test</id>
-                      <inputs>
-
-                      </inputs>
-                      <outputs>
-                        <cacheableBecause>compilation is CPU-bound</cacheableBecause>
-                      </outputs>
-                    </execution>
-                    <execution>
-                      <id>integration-test</id>
-                      <inputs>
-
-                      </inputs>
-                      <outputs>
-                        <cacheableBecause>compilation is CPU-bound</cacheableBecause>
-                      </outputs>
-                    </execution>
-                  </executions>
-                  <!--                  <inputs>-->
-                  <!--                    <fileSets>-->
-                  <!--                      <fileSet>-->
-                  <!--                        <name>generatedSourcesDirectory</name> &lt;!&ndash; maybe here? &ndash;&gt;-->
-                  <!--                        <normalization>-->
-                  <!--                          <ignoreEmptyDirectories>true</ignoreEmptyDirectories>-->
-                  <!--                          <ignoreLineEndings>true</ignoreLineEndings>-->
-                  <!--                        </normalization>-->
-                  <!--                      </fileSet>-->
-                  <!--                      <fileSet>-->
-                  <!--                        <name>classpath</name>-->
-                  <!--                        <normalization>COMPILE_CLASSPATH</normalization>-->
-                  <!--                      </fileSet>-->
-                  <!--                      <fileSet>-->
-                  <!--                        <name>testClasspath</name>-->
-                  <!--                        <normalization>COMPILE_CLASSPATH</normalization>-->
-                  <!--                      </fileSet>-->
-                  <!--                      <fileSet>-->
-                  <!--                        <name>extraClasspathElements</name>-->
-                  <!--                        <normalization>COMPILE_CLASSPATH</normalization>-->
-                  <!--                      </fileSet>-->
-                  <!--                    </fileSets>-->
-                  <!--                    <properties>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>compilerArgs</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>compilerArgument</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>compilerArguments</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>compilerVersion</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>copyResources</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>debug</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>deriveReleaseCompilerArgumentFromTargetLevel</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>encoding</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>excludeResources</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>excludes</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>executable</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>includes</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>log</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>optimize</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>outputFileName</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>pomOnlyDependencies</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>proc</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>release</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>requireJavaPackageImports</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>requireJREPackageImports</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>source</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>staleMillis</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>strictCompilerTarget</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>target</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>useJDK</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                      <property>-->
-                  <!--                        <name>annotationProcessors</name>-->
-                  <!--                      </property>-->
-                  <!--                    </properties>-->
-
-                  <!--                    <ignoredProperties> &lt;!&ndash; maybe ignored ? &ndash;&gt;-->
-                  <!--                      <ignore>compilerId</ignore>-->
-                  <!--                      <ignore>failOnWarning</ignore>-->
-                  <!--                      <ignore>fork</ignore>-->
-                  <!--                      <ignore>maxmem</ignore>-->
-                  <!--                      <ignore>meminitial</ignore>-->
-                  <!--                      <ignore>showDeprecation</ignore>-->
-                  <!--                      <ignore>showWarnings</ignore>-->
-                  <!--                      <ignore>meminitial</ignore>-->
-                  <!--                    </ignoredProperties>-->
-
-                  <!--                  </inputs>-->
-                  <outputs>
-                    <directories>
-                      <!--                      <directory>-->
-                      <!--                        <name>output</name>-->
-                      <!--                      </directory>-->
-                      <!--                      <directory>-->
-                      <!--                        <name>testOutput</name>-->
-                      <!--                      </directory>-->
-                      <!--                      <directory>-->
-                      <!--                        <name>logDirectory</name>-->
-                      <!--                      </directory>-->
-                    </directories>
-                  </outputs>
-                </plugin>
-              </plugins>
-            </gradleEnterprise>
+            <enableAssertions>true</enableAssertions>
+            <!-- There seems to be an issue with executing several tests in parallel in that
+                 it can happen that failed tests are eventually reported as having succeeded.
+                 A resolution is to set forkCount=1 and reuseForks=false
+                 See, e.g. the following stackoverflow post:
+                 https://stackoverflow.com/questions/3365628/junit-tests-pass-in-eclipse-but-fail-in-maven-surefire -->
+            <!-- parallel>classes</parallel -->
+            <!-- threadCount>4</threadCount -->
+            <reuseForks>false</reuseForks>
+            <forkCount>1</forkCount>
+            <excludes>
+              <exclude>**/TestUtil.java</exclude>
+            </excludes>
+            <systemProperties>
+              <ELK_REPO>${tests.paths.elk-repo}</ELK_REPO>
+              <MODELS_REPO>${tests.paths.models-repo}</MODELS_REPO>
+            </systemProperties>
           </configuration>
+  <!--        <dependencies>-->
+  <!--          <dependency>-->
+  <!--            <groupId>org.apache.maven.surefire</groupId>-->
+  <!--            <artifactId>surefire-junit47</artifactId>-->
+  <!--            <version>2.12.4</version>-->
+  <!--          </dependency>-->
+  <!--        </dependencies>-->
+          <executions>
+            <execution>
+              <id>test</id>
+              <goals>
+                <goal>test</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>integration-test</id>
+              <goals>
+                <goal>integration-test</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
+        
+
 
         <!--  Compile MELK files to options classes -->
         <plugin>

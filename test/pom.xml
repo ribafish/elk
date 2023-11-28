@@ -38,4 +38,13 @@
     <module>org.eclipse.elk.shared.test</module>
   </modules>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
